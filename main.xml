@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- pokud jako ucitel mate server users.fit.cvut.cz, pouzijte nize uvedeny odkaz -->
+<!-- <?xml-stylesheet type="text/xsl" href="https://users.fit.cvut.cz/~ryantiva/bi-omo/sprojekt/sprojekt_html.xsl"?> -->
+<!-- pokud jste student a mate server webdev.fit.cvut.cz, odkomentujte nasledujici radek a zakomentujte ten predchozi -->
+<!--<?xml-stylesheet type="text/xsl" href="https://webdev.fit.cvut.cz/~rybolzde/bi-omo/sprojekt/sprojekt_html.xsl"?>-->
+<!-- pokud odevzdavate semestralku pres progtest, pouzijte nize uvedeny odkaz -->
+<?xml-stylesheet type="text/xsl" href="sprojekt_html.xsl"?>
+<!--<!DOCTYPE sproject PUBLIC "-//XMLmind//DTD Sprojekt//EN" "https://webdev.fit.cvut.cz/~rybolzde/bi-omo/sprojekt/sprojekt.dtd">-->
+<!--<!DOCTYPE sproject PUBLIC "-//XMLmind//DTD Sprojekt//EN" "sprojekt.dtd">-->
+<sproject>
+  <course>
+    <cname>Objektové modelování</cname>
+
+    <code>BI-OMO</code>
+
+    <semester>Zimní semestr 2013/2014</semester>
+
+    <seminar>Čtvrtek 12:45</seminar>
+  </course>
+
+  <author>
+    <aname>Ondřej Martynek, Daniel navrátil</aname>
+
+    <uname>martyond, navradan</uname>
+
+    <email>martyond@fit.cvut.cz, navradan@fit.cvut.cz</email>
+  </author>
+
+  <content>
+    <declaration>Prohlašuji, že jsem svou semestrální práci vypracoval
+    samostatně. Všechny zdroje, ze kterých jsem čerpal, jsou uvedeny v části
+    Odkazy.</declaration>
+
+    <title>Systém pro správu letištního areálu</title>
+
+    <problem_statement>
+        <para>Nově postavené letiště v Uzbekistánu poptává nový informační systém pro komplexní správu letištního areálu. Z důvodu velkého množství informací je potřeba je sjednotit, aby bylo zajištěno rychlý odbavování cestujících bez zbytečných komplikací.</para>
+      
+    </problem_statement>
+
+    <problem_domain>
+      <para>Letištní areál je tvořen několika budovy, které mají své specifické funkce. Je potřeba tedy tyto budovy rozlišit, správně je identifikovat a přiřadit k nim odpovídající vlastnosti i zaměstnance. Rozlišujeme tedy budovy jako je hangár a ostatní budovy letištního areálu, které mohou být tvořeny specifickými odděleními, jako je odbavovací místnost, toalety, nákupní oblast, atd.</para>
+      <para>Jelikož evidujeme zaměstnance celého letištního areálu, rozdělují se tedy na zaměstnance pracující fyzicky na letištní hale a na zaměstnance, kteří vykonávají svojí pracovní činnost na palubě letadla.</para>     
+      <para>Nejdůležitější částí systému je samozřejmě pasažér a činnosti s ním spojené. Pasažér volitelně může mít zavadla, které je ale přiřazeno pouze k jednomu pasažéru.</para>
+      <para>Samotný let je složen z několika částí, jako je seznam pasažérů, piloti a ostatní personál pracující na letadle a letadla. </para>  
+    </problem_domain>
+
+    <purpose>  
+      <para>Cílem systému je zjednodušit správu letištního areálu, tedy hlavně zrychlit systém pro odbavování letů - registrace pasažérů a jejich zavazadel, personál a určené letadlo.</para>
+      
+      
+    </purpose>
+
+    <functions>
+      <function>
+        Systém umožňuje vyhledat pasažéry určeného letadla. 
+      </function>
+      <function>
+        Systém umožňuje vyhledat pracovníky pracující na jednotlivých odděleních.
+      </function>
+      <function>
+        Systém umožňuje vyhledat zavazadla a jejich vlastníka.
+      </function>
+      <function>
+        Systém umožňuje vyhledat personál pracující na konkrétním letu.
+      </function>
+    </functions>
+
+    <rules>
+      <rule>Každému zaměstnanci letištního areálu musí být alespoň 18 let.</rule>
+      <rule>Pasažér nesmí být mladší než 8 let.</rule>
+      <rule>Letadlo nesmí létat déle než 15 let.</rule>
+      <rule>Let nesmí mít více počet zavazadel než podle určenýho typu letadla.</rule>
+      <rule>Piloti smí denně nalítat maximálně 1 let (tam i zpět).</rule>
+    </rules>
+
+    <queries>
+      <query>
+        Najdi všechny letadla s počtem sedadel více než 200.
+      </query>
+      <query>
+        Najdi všechny piloty, kteří nalétali více než 10 letů.
+      </query>
+      <query>                                    
+        Najdi všechny pasažéry k letu #20130911003.
+      </query>
+      <query>
+        Najdi všechny zaměstance pracující na letištní pokladně.
+      </query>
+      <query>
+        Vypočítej průměrný počet pasažérů za den.
+      </query>
+      <query>
+        Smaž pasažéry, kteří neletěli déle než 2 roky.
+      </query>
+      <query>
+        Navyš mzdu všem pilotům o 13%.
+      </query>
+      <query>
+        Přidej do Letištní Haly C nové oddělení Kasino.
+      </query>
+      <query>
+        Vypočítej denní zisk z letenek.
+      </query>
+      
+    </queries>
+
+
+    <conceptual_model>
+       <cm_picture>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="airport.png" />
+          </imageobject>
+        </mediaobject>
+      </cm_picture>
+
+      <comment>
+        <para>Požadavky na návrh konceptuálního modelu tříd:</para>
+
+        <para>Jedná se o konceptuální model - v pojmech problémové domény. Do modelu nekreslete, 
+        jakým způsobem chcete implementovat asociace mezi objekty, ani směry navigace. Do 
+        tříd vyplňte seznam atributů a metod (v ukázce jsou tyto nekompletní!). U asociací
+        uvádějte násobnosti a názvy. Vše v návrhu musí k něčemu konkrétnímu sloužit, každý údaj
+        musí být použit v některém dotazu nebo pravidle, vše musíte umět pragmaticky zdůvodnit.</para>
+        
+        <para>V modelu využijte koncepty OntoUML dle své volby. Za správné použití každého konceptu
+        získáte patřičný počet bodů.</para>
+      </comment>
+
+      <cm_discussion>
+          <para>
+            Protože studenti, zaměstnanci i výzkumníci jsou lidé, zvolil jsem jako Kind poskytující identitu třídu Person. Od této třídy dědí jednotlivé role Professor a Student, protože osoba může být studentem i zaměstancem (např. doktorandi). Professor představuje zaměstnance na katedře, který opět může fungovat v různých rolích jako garant předmětu, vyučující nebo výzkumník.
+          </para>
+          <para>
+            Abychom mohli v systému evidovat všechny aktuální studenty, tedy i ty, kteří dočasně přerušili studium, vytvořil jsem dvě fáze studenta - student je buď aktivní a má zapsány předměty, nebo je suspendován a předměty žádné zapsané nemá.
+          </para>
+          <para>
+            Universitu jsem se rozhodl modelovat jako integrální celek složený z rektorátu a fakult, kvůli potřebě vyjádřit neoddělitelnost fakult i rektorátu od univerzity. Jejich oddělením by totiž rektorát přestal být rektorátem, podobně pak fakulta.
+          </para>
+          <para>
+            Co se týče relací, rozhodl jsem se vytvořit relátory pro členství studentů a výzkumníků ve výzkumné skupině a využít dědičné hierarchie, čímž mohu u obou evidovat datum vstupu do skupiny. Podobně relátor SubjectRegistration umožňuje evidovat datum zápisu předmětu studentem. Pro evidenci jednotlivých cvičení a přednášek jsem využil relator Teaching, který vlastně realizuje vazbu mezi vyučujícím a předmětem.
+          </para>
+      </cm_discussion>
+      
+      <cm_concepts>
+        <cm_concept>
+          <name>Kind</name>
+          <usages>
+            <usage>
+              <class>Person, University, Subject</class>
+              <relation>-</relation>
+            </usage>
+          </usages>
+        </cm_concept>
+        <cm_concept>
+          <name>Subkind</name>
+        </cm_concept>
+        <cm_concept>
+          <name>Role</name>
+          <usages>
+            <usage>
+              <class>Teacher</class>
+              <relation>Person - Professor - Subject</relation>
+              <comment>Učitel je osoba vyučující daný předmět.</comment>
+            </usage>
+            <usage>
+              <class>Student</class>
+              <relation>Person - Subject</relation>
+              <comment>Student je osoba, která je zapsaná ke studiu předmětu.</comment>
+            </usage>
+          </usages>
+        </cm_concept>
+        <cm_concept>
+          <name>Phase</name>
+          <usages>
+            <usage>
+              <class>Active Student, Suspended Student</class>
+              <relation>Student</relation>
+              <comment>Student může být aktivní, nebo jeho studium může být přerušeno.</comment>
+            </usage>
+          </usages>
+        </cm_concept>
+        <cm_concept>
+          <name>Category</name>
+        </cm_concept>
+        <cm_concept>
+          <name>RoleMixin</name>
+        </cm_concept>
+        <cm_concept>
+          <name>Mixin</name>
+        </cm_concept>
+        <cm_concept>
+          <name>Whole</name>
+          <usages>
+            <usage>
+              <class>University</class>
+              <relation>University - Rectorate, University - Faculty</relation>
+              <comment>Univerzita je celek tvořený rektorátem a jednotlivými fakultami.</comment>
+            </usage>
+          </usages>
+        </cm_concept>
+        <cm_concept>
+          <name>Part</name>
+          <usages>
+            <usage>
+              <class>Rectorate, Faculty</class>
+              <relation>University</relation>
+              <comment>Obě části jsou inseparable a povinné. Tj. pouze jedna kombinace povinností vztahu celek-část. Za toto nebude žádný bod.</comment>
+            </usage>
+          </usages>
+        </cm_concept>
+        <cm_concept>
+          <name>Quantity</name>
+        </cm_concept>
+        <cm_concept>
+          <name>Collective</name>
+          <usages>
+            <usage>
+              <class>Faculty</class>
+              <relation>Department</relation>
+              <comment>Fakulta je tvořena skupinou kateder.</comment>
+            </usage>
+          </usages>
+          <usages>
+            <usage>
+              <class>Department</class>
+              <relation>Professor</relation>
+              <comment>Katedra je tvořena jejími zaměstnanci.</comment>
+            </usage>
+          </usages>
+        </cm_concept>
+        <cm_concept>
+          <name>Quality</name>
+        </cm_concept>
+        <cm_concept>
+          <name>Mode</name>
+        </cm_concept>
+        <cm_concept>
+          <name>Relator</name>
+          <usages>
+            <usage>
+              <class>Subject Registration</class>
+              <relation>Student - Subject</relation>
+              <comment>Student se ke studiu předmětu zapisuje zápisem do indexu se zaznamenaným datem zápisu.</comment>
+            </usage>
+          </usages>
+        </cm_concept>
+        <cm_concept>
+          <name>Derived Relation</name>
+          <usages>
+            <usage>
+              <class>Department - Subject</class>
+              <relation>/teaches</relation>
+              <comment>Výuka každého předmětu je zajišťována některou katedrou.</comment>
+            </usage>
+          </usages>
+          <usages>
+            <usage>
+                <class>Department - Subject</class>
+              <relation>/guarantees</relation>
+              <comment>Každý předmět je garantován některou katedrou.</comment>
+            </usage>
+          </usages>
+      </cm_concept>
+        <cm_concept>
+          <name>Formal</name>
+          <usages>
+            <usage>
+              <class>Researcher</class>
+              <relation>/morePointsThan</relation>
+              <comment>Jestli má výzkumník více výzkumných bodů než jiný.</comment>
+            </usage>
+          </usages>
+        </cm_concept>
+         
+        <comment>
+          <para>V tabulce konceptuálních konceptů zaznamenejte, jaké koncepty OntoUML modelu jste ve své semestrální práci použili a kde.
+          Vyjmenujte pouze ty zástupce, které se podílí na bodovém hodnocení. Za každý správně použitý koncept
+          získáte body do hodnocení konceptuální části semestrální práce.</para>
+        </comment>
+      </cm_concepts>
+      
+    </conceptual_model>
+    
+    <implementation_model>
+       <im_picture>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="university1_impl.png" />
+          </imageobject>
+        </mediaobject>
+      </im_picture>
+
+      <comment>
+        <para>Požadavky na implementační model tříd:</para>
+
+        <para>Jedná se o objektový implementační model UML, který definuje způsob implementace jednotlivých konceptů konceptuálního modelu OntoUML v čistém
+        objektovém modelu s pomocí tříd, atributů, skládání, dědění a kolekcí.</para>
+        
+        <para>V modelu by měly být navrženy vhodné realizace jednotlivých konceptů, vhodně navržené směry
+        navigace vazeb vzhledem k dotazům a pravidlům.</para>
+      </comment>
+
+      <im_discussion>
+        <para>Koncept X jsem implementoval jako Y protože ...
+          Zvolil jsem směr navigace od H k I, protože je požadován dotaz D.
+          Asociaci V-W jsem realizoval pomocí tzv. "brusle", protože bude třeba efektivně provádět dotazy z obou stran.
+          ...
+        </para>
+      </im_discussion>
+    </implementation_model>
+
+    <implementation>
+      <package>
+        <file fileref="semestralka-uni.st" />
+      </package>
+      <impl_discussion>
+        <para>Implementace obsahuje N tříd a M testů.
+        </para>
+        <para>Požadavek X jsem zajistil implementací metody Y, která používá Z.
+          Konzistenci "brusle" mezi V a W jsem zajistil tak a tak.
+          ...
+        </para>
+        
+        <comment>
+          <para>V tomto místě by měla být popsána implementace navrženého modelu -- způsob řešení dotazů a pravidel, implementace
+          programové logiky.</para>
+        </comment>
+      </impl_discussion>
+      
+      <impl_concepts>
+        <impl_concept>
+          <name>Enforcing of multiplicity 1 (arrow side)</name>
+          <usages>
+            <usage>
+              <class>ResearchMembershipRelator</class>
+              <method>class method #researchGroup:</method>
+            </usage>
+            <usage>
+              <class>Subject</class>
+              <method>class method #guarantor:</method>
+            </usage>
+              <usage>
+              <class>SubjectRegistration</class>
+              <method>class method #subject:</method>
+            </usage>
+            <usage>
+                <comment>(1 point total)</comment>
+            </usage>
+          </usages>
+        </impl_concept>
+        <impl_concept>
+          <name>Printing method (polymorphic)</name>
+          <usages>
+            <usage>
+              <class>Subject</class>
+              <method>#printString:</method>
+            </usage>
+            <usage>
+                <comment>(1 point total)</comment>
+            </usage>
+          </usages>
+        </impl_concept>
+        <impl_concept>
+          <name>Class method</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Class method polymorphism</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Collection operations</name>
+          <usages>
+            <usage>
+              <class>ActiveStudentPhase</class>
+              <method>#studiesSet</method>
+              <comment>#collect:</comment>
+            </usage>
+            <usage>
+              <class>Department</class>
+              <method>#GuaranteedSubjectsSet:</method>
+              <comment>#flatCollect:, #select:</comment>
+            </usage>
+            <usage>
+              <class>Department</class>
+              <method>#taughtSubjectsSet:</method>
+              <comment>#flatCollect:</comment>
+            </usage>
+            <usage>
+              <comment>(3 points total: #collect:, #flatCollect, #select:)</comment>
+            </usage>
+          </usages>
+        </impl_concept>
+        <impl_concept>
+          <name>Extending super</name>
+          <usages>
+            <usage>
+              <class>ResearchMembershipRelator</class>
+              <method>#initialize</method>
+            </usage>
+            <usage>
+              <comment>(1 point total)</comment>
+          </usage>
+        </usages>
+        </impl_concept>
+        <impl_concept>
+          <name>Message comment that executes</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Simple delegation</name>
+          <usages>
+            <usage>
+              <class>Student, ActiveStudentPhase</class>
+              <method>#studies</method>
+            </usage>
+            <usage>
+              <comment>(2 points total)</comment>
+          </usage>
+        </usages>
+        </impl_concept>
+        <impl_concept>
+          <name>Self delegation</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Choosing object (polymorphism)</name>
+          <usages>
+            <usage>
+              <class>Professor, ResearcherRole</class>
+              <method>#salary</method>
+              <comment>Choosing object implemented in test #testSalaryPolymorphism.</comment>
+            </usage>
+            <usage>
+              <comment>(2 points total)</comment>
+          </usage>
+        </usages>
+        </impl_concept>
+        <impl_concept>
+          <name>Double dispatch</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Converter  method</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Converter constructor method</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Constant method</name>
+          <usages>
+            <usage>
+              <class>Professor</class>
+              <method>class methods #fixRate, #bonusPerYear</method>
+            </usage>
+            <usage>
+              <class>ResearcherRole</class>
+              <method>class methods #moneyPerResearchPoint</method>
+            </usage>
+            <usage>
+              <comment>(1 point total)</comment>
+          </usage>
+        </usages>
+        </impl_concept>
+        <impl_concept>
+          <name>Lazy initialization</name>
+          <usages>
+            <usage>
+              <class>ActiveStudentPhase</class>
+              <method>#registeredSubjectsCol</method>
+              <comment>Collection initialization</comment>
+            </usage>
+            <usage>
+              <class>ResearcherRole</class>
+              <method>#reseachPoints</method>
+              <comment>Default value initialization (0)</comment>
+            </usage>
+            <usage>
+                <comment>(2 points total)</comment>
+            </usage>
+          </usages>
+        </impl_concept>
+        <impl_concept>
+          <name>Lookup cache</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Sorted collection (with own sortblock)</name>
+        </impl_concept>
+        <impl_concept>
+          <name>Duplicate-removing set</name>
+        </impl_concept>
+
+        <comment>
+          <para>V tabulce konceptů zaznamenejte, které koncepty objektového programování jste ve své semestrální práci použili, kde a jakým způsobem.
+          Není třeba vyjmenovat všechny výskyty, stačí vyjmenovat zástupce, za které je udělováno hodnoceni.
+          Pokud uvedete výskyty navíc, získáte tím "rezervu" pro případ, že některý z nich jste použili chybně.
+          Za každý správně použitý koncept získáte body do hodnocení implementační části semestrální práce.</para>
+      </comment>
+      </impl_concepts>
+    </implementation>
+    
+    <verification>
+      <package>
+        <file fileref="semestralka-uni-tests.st" />
+      </package>
+      <unit_tests>
+        <unit_test>
+          <name>#testQueryTaughtSubjects</name>
+          <target>D1</target>
+          <description>Popis testu by měl být u metody ve zdrojáku. Zde pište pouze příp. extra vysvětlení.</description>
+        </unit_test>
+        <unit_test>
+          <name>#testRuleStaffOver18</name>
+          <target>P2</target>
+        </unit_test>
+        <unit_test>
+          <name>#testQueryTaughtSubjects</name>
+          <description>Popis testu by měl být u metody ve zdrojáku. Zde pište pouze příp. extra vysvětlení.</description>
+        </unit_test>
+         <unit_test>
+          <name>...</name>
+          <target>...</target>
+          <description>...</description>
+        </unit_test>        
+        <comment>
+          <para>V tabulce unit testů vyjmenujte jednotlivé testy, které jste implementovali pro ověření správné funkčnosti aplikace - tedy
+          implementaci jednotlivých stanovených dotazů, pravidel a omezení. 
+          Ostatní testy (zde např. #testSalaryPolymorphism) nemusíte zde uvádět, je však třeba v kódu zdokumentovat jejich význam.
+          JE NUTNÉ TESTY POKRÝT VŠECHNY DOTAZY A PRAVIDLA a též složitější pomocné funkčnosti, příp. výpočty.</para>
+        </comment>
+      </unit_tests>
+    
+    </verification>
+
+    <conclusions>
+      <title>Závěr</title>
+
+      <para>Navržený a implementovaný systém...</para>
+
+      <para>Za velkou přednost své semestrálky považuji, že se mi podařilo ...</para>
+
+      <para>Systém je dále možné rozšířit o ..., jelikož se mě podařilo pružně navrhnout způsob implementace XY.</para>
+      
+      <comment>
+        <para>Stejně tak lze komentovat závěr.</para>
+      </comment>
+    </conclusions>
+
+    <references>
+      <title>Odkazy</title>
+      <comment>
+        <para>Do odkazů dávat jen prameny, které jste skutečně využili!</para>
+      </comment>
+
+      <comment>
+        <para>A bude-li to třeba, můžete komentovat také odkazy.</para>
+      </comment>
+
+      <para>[1] Merunka, Vojtěch. Objektové modelování. Praha: ALfa, 2008. ISBN 978-80-87197-04-2.</para>
+      <para>[2] Goldberg, Adele; Robson, David. Smalltalk-80, the Language and its Implementation. Reading, Massachusetts: Addison-Wesley Publishing Company, 1983. ISBN 0-201-11371-6. Dostupné z WWW <link url="http://stephane.ducasse.free.fr/FreeBooks/BlueBook/">http://stephane.ducasse.free.fr/FreeBooks/BlueBook/</link> (navštíveno 8.10.2011)</para>
+    </references>
+  </content>
+</sproject>
